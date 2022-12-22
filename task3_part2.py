@@ -1,11 +1,9 @@
 class CourseFactory:
-    def __init__(self, t_code_n, name, surname, l_or_o, c_code_n, c_name, location, *args):
-        self.t_code_n = t_code_n
+    def __init__(self, name, surname, l_or_o, c_name, location, *args):
         self.t_code_n = Teacher(self)
         self.name = name
         self.surname = surname
         self.teaching = c_name
-        self.c_code_n = c_code_n
         if l_or_o == "local":
             self.c_code_n = Local(self)
         elif l_or_o == "offsite":
