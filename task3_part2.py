@@ -1,21 +1,53 @@
-class CourseFactory:
-    def __init__(self, name, surname, l_or_o, c_name, location, *args):
-        self.t_code_n = Teacher(self)
+from abc import ABC, abstractmethod
+
+
+class ITeacher(ABC):
+    @abstractmethod
+    def __init__(self):
+        pass
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+
+class ICourses(ABC):
+    @abstractmethod
+    def __init__(self):
+        pass
+
+
+class ILocal(ABC):
+    @abstractmethod
+    def __init__(self):
+        pass
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+
+class IOffsite(ABC):
+    @abstractmethod
+    def __init__(self):
+        pass
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+
+class CourseFactory(ICourses):
+    def __init__(self, name, surname, c_name, location, *args):
         self.name = name
         self.surname = surname
         self.teaching = c_name
-        if l_or_o == "local":
-            self.c_code_n = Local(self)
-        elif l_or_o == "offsite":
-            self.c_code_n = Offsite(self)
-        else:
-            raise Exception("Please, write local or offsite if the course is local or offsite respectively")
         self.location = location
         self.c_name = c_name
         self.topics = args
 
 
-class Teacher:
+class Teacher(ITeacher):
     def __init__(self, cf):
         self.name = cf.name
         self.surname = cf.surname
@@ -25,14 +57,14 @@ class Teacher:
         return f"{self.surname} {self.name}. Runs {self.teaching}"
 
 
-class Courses:
+class Courses(ICourses):
     def __init__(self, cf):
         self.c_name = cf.c_name
         self.topics = cf.topics
         self.location = cf.location
 
 
-class Local(Courses):
+class Local(Courses, ILocal):
     def __init__(self, cf):
         super().__init__(cf)
 
@@ -40,9 +72,15 @@ class Local(Courses):
         return f"{self.c_name} has such topic as {self.topics} and is held in a lab {self.location}"
 
 
-class Offsite(Courses):
+class Offsite(Courses, IOffsite):
     def __init__(self, cf):
         super().__init__(cf)
 
     def __str__(self):
         return f"{self.c_name} has such topic as {self.topics} and is located in city of {self.location}"
+
+
+factory = CourseFactory("Ivan", "Ivanov", "local", "rand", "lab2", "random numbers")
+x1 = Teacher(factory)
+x2 = Local(factory)
+print(x1)
