@@ -41,9 +41,8 @@ class CourseFactory(ICourses):
     def __init__(self, name, surname, c_name, location, *args):
         self.name = name
         self.surname = surname
-        self.teaching = c_name
-        self.location = location
         self.c_name = c_name
+        self.location = location
         self.topics = args
 
 
@@ -51,7 +50,7 @@ class Teacher(ITeacher):
     def __init__(self, cf):
         self.name = cf.name
         self.surname = cf.surname
-        self.teaching = cf.teaching
+        self.teaching = cf.c_name
 
     def __str__(self):
         return f"{self.surname} {self.name}. Runs {self.teaching}"
@@ -80,7 +79,8 @@ class Offsite(Courses, IOffsite):
         return f"{self.c_name} has such topic as {self.topics} and is located in city of {self.location}"
 
 
-factory = CourseFactory("Ivan", "Ivanov", "local", "rand", "lab2", "random numbers")
+factory = CourseFactory("Ivan", "Ivanov", "rand", "lab2", "random numbers")
 x1 = Teacher(factory)
 x2 = Local(factory)
 print(x1)
+print(x2)
